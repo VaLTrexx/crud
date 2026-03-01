@@ -9,7 +9,7 @@ import (
 )
 
 func newdb() *pgxpool.Pool {
-	dsn := os.Getenv("dburl")
+	dsn := os.Getenv("DATABASE_URL")
 
 	pool, err := pgxpool.New(context.Background(), dsn)
 	if err != nil {
