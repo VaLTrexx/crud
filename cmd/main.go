@@ -9,7 +9,7 @@ import (
 
 func main() {
 
-	db := repository.NewDB()
+	db := repository.Newdb()
 	defer db.Close()
 
 	taskRepo := repository.NewTaskRepository(db)
