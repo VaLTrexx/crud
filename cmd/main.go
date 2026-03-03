@@ -1,9 +1,9 @@
 package main
 
 import (
-	"net/http"
-
+	"github.com/VaLTrexx/crud/internal/handler"
 	"github.com/VaLTrexx/crud/internal/repository"
+	"github.com/VaLTrexx/crud/internal/service"
 	"github.com/gin-gonic/gin"
 )
 
@@ -13,13 +13,13 @@ func main() {
 	defer db.Close()
 
 	taskRepo := repository.NewTaskRepository(db)
+	taskService := service.NewTaskService(taskRepo)
+	taskHandler := handler.NewTaskHandler(taskService)
+
 	router := gin.Default()
 
-	router.GET("/health", func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{
-			"status": "runing",
-		})
-	})
+	router.GET("/tasks", taskHandler.GetAllTasks)
+	router.POST("/tasks", taskHandler.CreateTask)
 
 	router.Run()
 }
